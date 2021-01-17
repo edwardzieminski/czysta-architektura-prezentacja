@@ -1,0 +1,459 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Czysta architektura - Edward Ziemiński dla Coding Tree</title>
+    <meta name="description" content="Czysta architektura - prezentacja dla Coding Tree">
+    <meta name="author" content="Edward Ziemiński">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../dist/reset.css" />
+    <link rel="stylesheet" href="../dist/reveal.css" />
+    <link rel="stylesheet" href="../dist/theme/black.css" />
+    <link
+      rel="stylesheet"
+      href="../plugin/highlight/stackoverflow-dark.css"
+      id="highlight-theme"
+    />
+    <link rel="stylesheet" href="style.css" />
+    
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown>
+          <textarea data-template>
+                ## Czysta architektura
+                
+                <img src="img/czysta-architektura-okladka.jpg" height="350" alt="Okładka książki Czysta architektura"/>
+                
+                Prezentacja na podstawie książki "Czysta architektura" [Robert C. Martin]
+                
+                <div style="text-align: right; font-weight: bold;">Edward Ziemiński</div>
+            </textarea
+          >
+        </section>
+        <section data-markdown>
+          <textarea data-template>
+                # NASZE BŁĘDY
+            </textarea
+          >
+        </section>
+        <section>
+            <section data-markdown>
+                <textarea data-template>
+                      ## Jaki silnik bazy danych?
+                      - Dynamo DB
+                      - MySQL
+                      - MS SQL
+                      - Cosmos DB
+                      - PostgreSQL
+                  </textarea
+                >
+              </section>
+              <section data-markdown>
+                <textarea data-template>
+                      ## Jaki hosting?
+                      - Azure
+                      - AWS
+                      - Inny
+                  </textarea
+                >
+              </section>
+              <section data-markdown>
+                <textarea data-template>
+                      ## Jakie technologie Frontend?
+                      - React-Hook-Forms
+                      - Redux
+                      - Redux Toolkit
+                      - Redux-Saga
+                      - Styled-Components
+                  </textarea
+                >
+              </section>
+              <section data-markdown>
+                <textarea data-template>
+                      ## Jaka rozwiązania architekturalne
+                      - Web API
+                      - Mikroserwisy
+                      - Microfrontends
+                  </textarea
+                >
+              </section>
+              <section data-markdown>
+                <textarea data-template>
+                      ## Jakie języki/frameworki?
+                      - C#
+                      - ASP.NET
+                      - .NET 5
+                      - JavaScript
+                      - A może TypeScript?
+                      - React
+                      - A może Angular?
+                  </textarea>
+              </section>
+        </section>
+        <section>
+            <section>
+                No i gdzie tu błąd?
+            </section>
+            <section data-markdown>
+                <textarea data-template>
+                      ## To wszystko tylko <u>narzędzia</u> do realizacji <span style="display: inline-block; color: lightgreen;">(istotnych) reguł biznesowych</span>
+                  </textarea>
+              </section>
+        </section>
+        <section data-markdown>
+          <textarea data-template>
+                ## ISTOTNE REGUŁY BIZNESOWE
+                - istnieją również bez programu
+                - są niezależne od innych warstw
+                - zmieniają się z innych powodów niż UI
+            </textarea
+          >
+        </section>
+        <section>
+            <section data-markdown data-auto-animate>
+                <textarea data-template>
+                      ## KRZYCZĄCA ARCHITEKTURA
+                      - widzimy projekt domu -> nie mamy wątpliwości, że to dom
+                      - widzimy projekt sklepu -> nie mamy wątpliwości, że to sklep
+                  </textarea
+                >
+              </section>
+              <section data-markdown data-auto-animate>
+                <textarea data-template>
+                      ## KRZYCZĄCA ARCHITEKTURA
+                      - widzimy projekt domu -> nie mamy wątpliwości, że to dom
+                      - widzimy projekt sklepu -> nie mamy wątpliwości, że to sklep
+                      - <span style="color: lightgreen;">widzimy projekt MyShifts -> nie mamy wątpliwości, że to .NET + JS</span>
+                  </textarea
+                >
+              </section>
+              <section data-markdown data-auto-animate>
+                <textarea data-template>
+                      ## KRZYCZĄCA ARCHITEKTURA
+                      - widzimy projekt domu -> nie mamy wątpliwości, że to dom
+                      - widzimy projekt sklepu -> nie mamy wątpliwości, że to sklep
+                      - <span style="color: lightgreen;">widzimy projekt MyShifts -> nie mamy wątpliwości, że to .NET + JS</span>
+                      ---
+                      <span style="color: greenyellow;">... ale nie mamy pojęcia, że to aplikacja do zarządzania zmianami pracowników</span>
+                  </textarea>
+              </section>
+        </section>
+        <section>
+            <section data-markdown data-auto-animate>
+                <textarea data-template>
+                      ## GDZIE JEST BŁĄD?
+                      - Wybieramy nasze narzędzia do pracy **zanim** przeanalizujemy **istotne reguły biznesowe**
+                      - Chcemy najpierw stworzyć szkielet endpointów, a potem zabierać się za ich obsługę po obu stronach
+                  </textarea
+                >
+              </section>
+              <section data-markdown data-auto-animate>
+                <textarea data-template>
+                      ## GDZIE JEST BŁĄD?
+                      - Wybieramy nasze narzędzia do pracy **zanim** przeanalizujemy **istotne reguły biznesowe**
+                      - Chcemy najpierw stworzyć szkielet endpointów, a potem zabierać się za ich obsługę po obu stronach
+                      ---
+                      ### TE RZECZY<br/>POWINNIŚMY ZROBIĆ<br/><span style="display: inline-block; color: lightgreen;">NA KOŃCU</span>
+                  </textarea>
+              </section>
+        </section>
+        <section>
+            <section data-auto-animate>
+                <h2>KOMPONENTY APLIKACJI</h2>
+                <div class="app_component_container">
+                  <div data-id="wui" style="grid-row: 2; grid-column: 1">WEB UI</div>
+                  <div data-id="api" style="grid-row: 2; grid-column: 2">API</div>
+                  <div data-id="irb" style="grid-row: 2; grid-column: 3">ISTOTNE REGUŁY BIZNESOWE</div>
+                  <div data-id="dba" style="grid-row: 2; grid-column: 4">DB ACCESS (ORM)</div>
+                  <div data-id="db" style="grid-row: 2; grid-column: 5">DB</div>
+                </div>
+              </section>
+              <section data-auto-animate>
+                <h2>KOMPONENTY APLIKACJI</h2>
+                <div class="app_component_container">
+                  <div data-id="wui" style="grid-row: 3; grid-column: 1">WEB UI</div>
+                  <div data-id="api" style="grid-row: 2; grid-column: 2">API</div>
+                  <div data-id="irb" style="grid-row: 1; grid-column: 3">ISTOTNE REGUŁY BIZNESOWE</div>
+                  <div data-id="dba" style="grid-row: 2; grid-column: 4">DB ACCESS (ORM)</div>
+                  <div data-id="db" style="grid-row: 3; grid-column: 5">DB</div>
+                </div>
+              </section>
+              <section data-auto-animate>
+                <h2>KOMPONENTY APLIKACJI</h2>
+                <div class="app_component_container">
+                  <div data-id="wui" style="grid-row: 3; grid-column: 1; background-color: darkgreen">
+                    WEB UI
+                  </div>
+                  <div data-id="api" style="grid-row: 2; grid-column: 2; background-color: rgb(153, 84, 0);">API</div>
+                  <div data-id="irb" style="grid-row: 1; grid-column: 3; background-color: darkred">ISTOTNE REGUŁY BIZNESOWE</div>
+                  <div data-id="dba" style="grid-row: 2; grid-column: 4; background-color: rgb(153, 84, 0);">DB ACCESS (ORM)</div>
+                  <div data-id="db" style="grid-row: 3; grid-column: 5; background-color: darkgreen" >DB</div>
+                </div>
+              </section>
+              <section data-auto-animate>
+                <h2>KOMPONENTY APLIKACJI</h2>
+                <div class="app_component_container">
+                  <div data-id="wui" style="grid-row: 3; grid-column: 1; background-color: darkgreen">WEB UI</div>
+                  <div data-id="api" style="grid-row: 2; grid-column: 2; background-color: rgb(153, 84, 0);">API</div>
+                  <div data-id="irb" style="grid-row: 1; grid-column: 3; background-color: darkred">ISTOTNE REGUŁY BIZNESOWE</div>
+                  <div data-id="dba" style="grid-row: 2; grid-column: 4; background-color: rgb(153, 84, 0);">DB ACCESS (ORM)</div>
+                  <div data-id="db" style="grid-row: 3; grid-column: 5; background-color: darkgreen">DB</div>
+                  <svg style="grid-row: 1; grid-column: 2">
+                    <defs>
+                      <marker
+                        id="arrow"
+                        markerWidth="13"
+                        markerHeight="13"
+                        refx="2"
+                        refy="6"
+                        orient="auto"
+                      >
+                        <path d="M2,2 L2,11 L10,6 L2,2" style="fill: white" />
+                      </marker>
+                    </defs>
+      
+                    <path
+                      d="M30,190 L190,60"
+                      style="
+                        stroke: white;
+                        stroke-width: 1.25px;
+                        fill: none;
+                        marker-end: url(#arrow);
+                      "
+                    />
+                  </svg>
+                  <svg style="grid-row: 2; grid-column: 1">
+                    <defs>
+                      <marker
+                        id="arrow"
+                        markerWidth="13"
+                        markerHeight="13"
+                        refx="2"
+                        refy="6"
+                        orient="auto"
+                      >
+                        <path d="M2,2 L2,11 L10,6 L2,2" style="fill: white" />
+                      </marker>
+                    </defs>
+      
+                    <path
+                      d="M30,190 L190,60"
+                      style="
+                        stroke: white;
+                        stroke-width: 1.25px;
+                        fill: none;
+                        marker-end: url(#arrow);
+                      "
+                    />
+                  </svg>
+                  <svg style="grid-row: 1; grid-column: 4">
+                    <defs>
+                      <marker
+                        id="arrow"
+                        markerWidth="13"
+                        markerHeight="13"
+                        refx="2"
+                        refy="6"
+                        orient="auto"
+                      >
+                        <path d="M2,2 L2,11 L10,6 L2,2" style="fill: white" />
+                      </marker>
+                    </defs>
+      
+                    <path
+                      d="M170,190 L10,60"
+                      style="
+                        stroke: white;
+                        stroke-width: 1.25px;
+                        fill: none;
+                        marker-end: url(#arrow);
+                      "
+                    />
+                  </svg>
+                  <svg style="grid-row: 2; grid-column: 5">
+                    <defs>
+                      <marker
+                        id="arrow"
+                        markerWidth="13"
+                        markerHeight="13"
+                        refx="2"
+                        refy="6"
+                        orient="auto"
+                      >
+                        <path d="M2,2 L2,11 L10,6 L2,2" style="fill: white" />
+                      </marker>
+                    </defs>
+      
+                    <path
+                      d="M170,190 L10,60"
+                      style="
+                        stroke: white;
+                        stroke-width: 1.25px;
+                        fill: none;
+                        marker-end: url(#arrow);
+                      "
+                    />
+                  </svg>
+                </div>
+              </section>
+        </section>
+        <section>
+            <section data-markdown>
+                <textarea data-template>
+                      ## PROSTY PRZYKŁAD
+                      ![Encrypt - schemat](img/encrypt-layers.jpg)
+                  </textarea>
+              </section>
+              <section data-markdown>
+                  <textarea data-template>
+                        ## PROSTY PRZYKŁAD
+                        ![Business logic - projekt](img/component-businesslogic.png)
+                        ![Console UI - projekt](img/component-consoleui.png)
+      
+                        [repo github](https://github.com/edwardzieminski/extremely-simple-layer-architecture)
+                    </textarea>
+                </section>
+        </section>
+        <section data-auto-animate>
+          <h2>Encja</h2>
+          <pre><code class="hljs" data-trim data-line-numbers="|4|1,2|6,8|"><script type="text/template">
+            using System.Collections.Generic;
+            using System.Linq;
+
+            namespace BusinessLogic.Entities
+            {
+                internal sealed class EncoderEntity
+                {
+                    internal string Encode(string text)
+                    {
+                        var charList = text
+                            .ToCharArray()
+                            .ToList();
+
+                        var encodedCharsList = new List<string>();
+
+                        charList
+                            .ForEach(
+                                c => 
+                                    encodedCharsList.Add($"({ c })")
+                                    );
+
+                        return string.Join("",encodedCharsList);
+                    }
+                }
+            }
+          </script></code></pre>
+        </section>
+        <section>
+            <section data-markdown data-auto-animate>
+                <textarea data-template>
+                      ## CZYM JEST ENCJA?
+                      - obiekt ze stanem i/lub zachowaniami (niekoniecznie w sensie OOP)
+                      - jest uosobieniem istotnych reguł biznesowych
+                      - nie jest od niczego i nikogo zależna
+    
+                      np. w systemie bankowym obiekt wyliczający zdolność kredytową
+                  </textarea>
+              </section>
+              <section data-markdown data-auto-animate>
+                <textarea data-template>
+                      ## CZYM JEST ENCJA?
+                      - obiekt ze stanem i/lub zachowaniami (niekoniecznie w sensie OOP)
+                      - jest uosobieniem istotnych reguł biznesowych
+                      - nie jest od niczego i nikogo zależna
+                      - wyższa pierdolencja :)
+    
+                      np. w systemie bankowym obiekt wyliczający zdolność kredytową
+                  </textarea>
+              </section>
+              <section>
+                  Nie mylić z encją w bazie danych!
+              </section>
+        </section>
+          <section data-markdown data-auto-animate>
+            <textarea data-template>
+                  ## CZYM JEST PRZYPADEK UŻYCIA?
+                  - obiekt o warstwę niżej niż encja
+                  - obsługuje wymagania biznesowe, które pojawiły się wraz z utworzeniem aplikacji
+                  - "ochroniarz" encji
+                  
+                  np. wstrzymywanie wyliczania zdolności kredytowej przed uzupełnieniem formularza
+              </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+                ![Business logic - projekt](img/czysta-architektura-diagram.jpg)
+            </textarea>
+          </section>
+          <section>
+            <section data-markdown>
+                <textarea data-template>
+                    ## Czym są granice między warstwami?
+    
+                    Wasze pomysły?
+                </textarea>
+              </section>
+              <section data-markdown>
+                <textarea data-template>
+                    ## Czym są granice między warstwami?
+                    - na poziomie kodu źródłowego
+                    - komponent/assembly/projekt/dll/jar
+                    - API
+                    - procesy
+                    - usługi
+                </textarea>
+              </section>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+                ## Wzorzec Humble Object
+                - do zastosowania przy trudno testowalnych obiektach, np. widokach
+                - czyli we Frontendzie również warto zrobić warstwy
+                - ułatwia testowanie
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+                ## Co jeszcze znajdziesz w tej książce?
+                - SOLID omówiony nieco dokładniej niż w necie
+                - odpowiednik SOLIDa dla komponentów
+                - wady i zalety paradygmatów
+                - Helion mi nie zapłacił, ta książka naprawdę jest dobra
+
+                [pełen spis treści na dole strony pod recenzją](https://helion.pl/ksiazki/czysta-architektura-struktura-i-design-oprogramowania-przewodnik-dla-profesjonalistow-robert-c-martin,czarch.htm#format/d)
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+                # DZIĘKI!!!
+            </textarea>
+          </section>
+      </div>
+    </div>
+    <script src="../dist/reveal.js"></script>
+    <script src="../plugin/zoom/zoom.js"></script>
+    <script src="../plugin/markdown/markdown.js"></script>
+    <script src="../plugin/highlight/highlight.js"></script>
+    <script>
+      Reveal.initialize({
+        plugins: [RevealZoom, RevealMarkdown, RevealHighlight],
+        history: true,
+        autoAnimateEasing: "ease-out",
+        autoAnimateDuration: 0.8,
+        autoAnimateUnmatched: false,
+      });
+    </script>
+    <script
+      src="//localhost:35729/livereload.js?snipver=1"
+      async=""
+      defer=""
+    ></script>
+  </body>
+</html>
